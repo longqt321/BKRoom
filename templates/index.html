@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Empty Rooms</title>
+  </head>
+  <body>
+    <h1>Phòng học còn trống</h1>
+
+    <!-- Form để người dùng nhập khung giờ và gửi yêu cầu -->
+    <form method="get" action="/">
+      <label for="time_slot">Nhập khung giờ:</label>
+      <input
+        type="text"
+        id="time_slot"
+        name="time_slot"
+        value="{{ data.time_slot }}"
+      />
+      <button type="submit">Tìm phòng trống</button>
+    </form>
+
+    <div id="content">
+      <h2>Khung giờ: {{ data.time_slot }}</h2>
+      <ul>
+        {% for room in data.empty_rooms %}
+        <li>{{ room }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>
