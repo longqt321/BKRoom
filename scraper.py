@@ -7,6 +7,10 @@ import json
 sys.stdout.reconfigure(encoding='utf-8')
 response = requests.get("http://cb.dut.udn.vn/PageCNPhongHoc.aspx")
 
+if response.status_code != 200:
+    print(f"Failed to fetch data: {response.status_code}")  # Debug print
+    sys.exit(1)
+
 hours = {
     1: '7h00',
     2: '8h00',
@@ -62,6 +66,7 @@ def find_empty_rooms(time_slot):
 
 if response.status_code == 200:
     soup = BeautifulSoup(response.text,'html.parser')
+    print(soup)
     table = soup.find('table',param)
     trs = table.find_all('tr',{'class' : 'GridRow'})
     for tr in trs:
@@ -84,26 +89,6 @@ if response.status_code == 200:
 else:
     print("Error!")
 
-#print(my_dict)
-
-# for key,value in my_dict.items():
-#     print("Phong hoc: ",key)
-#     print("Gio trong: ",value)
-#     print('\n')
-
-# r = input("Nhap phong hoc: ")
-# print(my_dict[r])
-
-time_slot = "7h30"
-empty_rooms = find_empty_rooms(time_slot)
-
-data = {
-    "time_slot": time_slot,
-    "empty_rooms": empty_rooms
-}
-
-with open('empty_rooms.json', 'w', encoding='utf-8') as f:
-    json.dump(data, f, ensure_ascii=False, indent=4)
-
-
-#print(f"Phòng học còn trống trong khung giờ {time_slot}: {empty_rooms}")
+print(f"Scraped data: {my_dict}")
+data = find_empty_rooms("7h00")
+print(f"Log of scraper: {data}")
